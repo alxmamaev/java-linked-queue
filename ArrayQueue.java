@@ -1,14 +1,13 @@
 package queue;
-import java.util.Arrays;
 
-public class ArrayQueue {
+public class ArrayQueue extends AbstractQueue{
     private int start;
     private int end;
-    private int length;
     private Object[] elements = new Object[10];
 
     // Pre: element != null
     // Post: elements = elements' + [element]; length = length' + 1
+    @Override
     public void enqueue(Object element) {
         assert element != null;
 
@@ -54,7 +53,8 @@ public class ArrayQueue {
     }
 
     // Pre: length > 0
-    // Post: length -= 1; elements[start'] = None; start = start' + 1 
+    // Post: length -= 1; elements[start'] = None; start = start' + 1
+    @Override 
     public Object dequeue() {
         assert length > 0;
 
@@ -73,7 +73,8 @@ public class ArrayQueue {
     }
 
     // Pre: length > 0
-    // Post:
+    // Post: returns elements[start]
+    @Override
     public Object element() {
         assert length > 0;
 
@@ -81,19 +82,8 @@ public class ArrayQueue {
     }
 
     // Pre:
-    // Post: 
-    public int size() {
-        return length;
-    }
-
-    // Pre:
-    // Post: 
-    public boolean isEmpty() {
-        return length == 0;
-    }
-    
-    // Pre:
     // Post: length=0; start=0; end=0
+    @Override
     public void clear() {
         start = 0;
         end = 0;
@@ -101,7 +91,8 @@ public class ArrayQueue {
     }
 
     // Pre:
-    // Post:
+    // Post: returns String "elements[0], elements[1], ..., elements[length-1]"
+    @Override
     public String toStr(){
         StringBuilder sb = new StringBuilder();
         sb.append("[");
@@ -133,5 +124,32 @@ public class ArrayQueue {
         sb.append("]");
 
         return sb.toString();
+    }
+
+
+    @Override
+    public Object[] toArray(){
+        Object[] output_array  = new Object[length];
+        int indx = 0;
+        
+        if(end >= start){
+            for(int i=start; i<end; i++){
+                output_array[indx] = elements[i];
+                indx++;
+            }
+        }
+        else{
+            for(int i=start; i<elements.length; i++){
+                output_array[indx] = elements[i];
+                indx++;
+            }
+
+            for(int i=0; i<end; i++){
+                output_array[indx] = elements[i];
+                indx++;
+            }
+        }
+        
+        return output_array;
     }
 }
